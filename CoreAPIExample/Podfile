@@ -1,0 +1,14 @@
+
+target 'CoreAPIExample' do
+  
+  # Uncomment the next line to define a global platform for your project
+  platform :ios, '12.1'
+
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for CoreAPIExample
+
+  pod 'CoreAPI', :path => '../CoreAPI.podspec'
+
+end

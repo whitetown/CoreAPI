@@ -1,0 +1,9 @@
+.DS_Store
+/.build
+/Packages
+xcuserdata/
+.swiftpm
+CoreAPI.xcodeproj/project.xcworkspace/xcshareddata
+Podfile.lock
+CoreAPIExample/Pods
+CoreAPIExample/CoreAPIExample.xcworkspace/xcshareddata
