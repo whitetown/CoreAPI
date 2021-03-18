@@ -19,17 +19,17 @@ extension URLRequest {
         self.init(url: url)
         self.httpMethod = resource.method.stringValue
         for (field, value) in headers {
-            self.addValue(value, forHTTPHeaderField: field)
+            self.setValue(value, forHTTPHeaderField: field)
         }
         for (field, value) in resource.headers {
-            self.addValue(value, forHTTPHeaderField: field)
+            self.setValue(value, forHTTPHeaderField: field)
         }
         for (field, value) in signature {
-            self.addValue(value, forHTTPHeaderField: field)
+            self.setValue(value, forHTTPHeaderField: field)
         }
         if resource.isJSON {
             for (field, value) in jsonHeader {
-                self.addValue(value, forHTTPHeaderField: field)
+                self.setValue(value, forHTTPHeaderField: field)
             }
         }
         if resource.method != .get {

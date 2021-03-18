@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
     spec.name         = "SwiftCoreAPI"
-    spec.version      = "0.0.3"
+    spec.version      = "0.0.4"
     spec.summary      = "SwiftCoreAPI framework"
 
     spec.description  = <<-DESC
@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
     spec.ios.deployment_target = "12.1"
     spec.swift_version = "5.1"
 
-    spec.source        = { :git => "https://github.com/whitetown/SwiftCoreAPI.git", :tag => "v0.0.3" }
-    spec.source_files  = "Sources/**/*.{h,m,swift}"
+    spec.source        = { :git => "https://github.com/whitetown/SwiftCoreAPI.git", :tag => "v0.0.4" }
+    spec.source_files  = "Sources/**/*.swift"
 
 end
