@@ -22,7 +22,7 @@ public class APIResource {
                 data:      Data?,
                 query:     [String: Any] = [:]) {
 
-        self.path    = path
+        self.path    = path?.fixPath()
         self.method  = method
         self.headers = headers
         self.data    = data
@@ -35,7 +35,7 @@ public class APIResource {
                             body:      [String: Any] = [:],
                             query:     [String: Any] = [:]) {
 
-        self.init(path:     path,
+        self.init(path:     path?.fixPath(),
                   method:   method,
                   headers:  headers,
                   data:     try? JSONSerialization.data(withJSONObject: body),
@@ -48,7 +48,7 @@ public class APIResource {
                                           payload:   E,
                                           query:     [String: Any] = [:]) {
 
-        self.init(path:     path,
+        self.init(path:     path?.fixPath(),
                   method:   method,
                   headers:  headers,
                   data:     try? JSONEncoder().encode(payload),
@@ -60,11 +60,7 @@ public class APIResource {
 public extension APIResource {
 
     func path(_ path: String) -> Self {
-        if path.hasPrefix("/") {
-            self.path = String(path.dropFirst())
-        } else {
-            self.path = path
-        }
+        self.path = path.fixPath()
         return self
     }
 
@@ -185,5 +181,16 @@ public extension APIResource {
     func delete() -> Self {
         self.method = .delete
         return self
+    }
+}
+
+extension String {
+
+    func fixPath() -> String {
+        if self.hasPrefix("/") {
+            return String(self.dropFirst())
+        } else {
+            return self
+        }
     }
 }
