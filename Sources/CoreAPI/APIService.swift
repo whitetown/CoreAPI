@@ -9,12 +9,17 @@ import Foundation
 
 open class APIService {
 
-    public var onLogging: ((String) -> Void)?
+    public var onLog: ((String) -> Void)?
+    public var maxLogHeaderLength = -1
+
+    public var signature:  ((URL?) -> [String : String])?
+    public var on401Error: ((URL?) -> Void)?
+
+    public let queue = OperationQueue()
+    public let session = URLSession(configuration: .default)
 
     internal var baseURL:  URL?
     internal var headers = [String:String]()
-
-    public let session = URLSession(configuration: .default)
 
     public init() {
         self.session.configuration.waitsForConnectivity = true
@@ -24,7 +29,8 @@ open class APIService {
     open func prepareRequest(_ url: URL, _ resource: APIResource) -> URLRequest {
         return URLRequest(url: url,
                           resource: resource,
-                          headers: self.headers)
+                          headers: self.headers,
+                          signature: self.signature?(self.baseURL) ?? [:])
     }
 
     open func url(_ resource: APIResource) -> URL? {
@@ -45,53 +51,82 @@ open class APIService {
                       parse: @escaping ((AnyObject, Data) -> T?),
                       completion: @escaping (Result<T, Error>) -> ()) {
 
+        weak var welf = self
+        let operation = BlockOperation {
+            self.loadInternal(resource, parse: parse) { (result) in
+                switch result {
+                case .success(_):
+                    completion(result)
+                case .failure(let error):
+                    if (error as? APIError)?.apiCode == .unauthorised, let on401Error = welf?.on401Error {
+                        welf?.suspend()
+                        welf?.reloadResource(resource, parse: parse, completion: completion)
+                        on401Error(welf?.baseURL)
+                    } else {
+                        completion(result)
+                    }
+                }
+            }
+        }
+        self.queue.addOperation(operation)
+    }
+
+    private func loadInternal<T>(_ resource: APIResource,
+                      parse: @escaping ((AnyObject, Data) -> T?),
+                      completion: @escaping (Result<T, Error>) -> ()) {
+
         guard let url = self.url(resource) else {
-            DispatchQueue.main.async { completion(.failure(APIError(.wrongURL))) }
+            completion(.failure(APIError(.wrongURL)))
             return
         }
 
         let request = prepareRequest(url, resource)
         self.session.dataTask(with: request) { data, response, error in
+            
             DispatchQueue.global().async {
-            self.log(request, data, response, error)
+                self.log(request, data, response, error)
             }
 
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
 
             if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(APIError(.otherHTTP, statusCode: statusCode, error: error, response: response)))
-                }
+                completion(.failure(APIError(.otherHTTP, statusCode: statusCode, error: error, response: response)))
                 return
             }
 
             if let error = APIError.checkResponse(response, data: data) {
-                DispatchQueue.main.async { completion(.failure(error)) }
+                completion(.failure(error))
                 return
             }
 
             if  let data = data,
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as AnyObject,
                 let result = parse(json, data) {
-                DispatchQueue.main.async { completion(.success(result)) }
+                    completion(.success(result))
                 return
             }
 
             if [200, 201, 202, 204].contains(statusCode) {
                 if let result = true as? T {
-                    DispatchQueue.main.async { completion(.success(result)) }
+                    completion(.success(result))
                     return
                 }
             }
 
-            DispatchQueue.main.async { completion(.failure(APIError(.noData, statusCode: statusCode))) }
+            completion(.failure(APIError(.noData, statusCode: statusCode)))
 
         }.resume()
     }
 
+    private func reloadResource<T>(_ resource: APIResource,
+                                   parse: @escaping ((AnyObject, Data) -> T?),
+                                   completion: @escaping (Result<T, Error>) -> ()) {
+        self.loadInternal(resource, parse: parse, completion: completion)
+    }
+
     private func log(_ request: URLRequest, _ data: Data?, _ response: URLResponse?, _ error: Error?) {
         
-        guard let onLogging = self.onLogging else { return }
+        guard let onLog = self.onLog else { return }
 
         var messages = [String]()
         
@@ -99,7 +134,7 @@ open class APIService {
 
         messages.append(request.url?.absoluteString ?? "")
         if let headers = request.allHTTPHeaderFields {
-            messages.append("HEADERS: \(headers.description)")
+            messages.append("HEADERS: \(self.maxLogHeaderLength >= 0 ? String(headers.description.prefix(self.maxLogHeaderLength)) : headers.description)")
         }
         if  let httpBody = request.httpBody {
             let value = String(data: httpBody, encoding: .utf8)
@@ -127,7 +162,7 @@ open class APIService {
         
         let result = messages.joined(separator: "\n") + "\n"
         //print(result)
-        onLogging(result)
+        onLog(result)
     }
 
 }
@@ -161,9 +196,56 @@ public extension APIService {
     }
 
     @discardableResult
-    func on(log: @escaping ((String) -> Void)) -> Self {
-        self.onLogging = log
+    func onLog(_ log: @escaping ((String) -> Void)) -> Self {
+        self.onLog = log
         return self
     }
 
+    @discardableResult
+    func onError401(_ error401: @escaping ((URL?) -> Void)) -> Self {
+        self.on401Error = error401
+        return self
+    }
+
+    @discardableResult
+    func onSignature(_ signature: @escaping ((URL?) -> [String : String])) -> Self {
+        self.signature = signature
+        return self
+    }
+
+    func suspend() {
+        self.queue.isSuspended = true
+    }
+
+    func resume() {
+        self.queue.isSuspended = false
+    }
+
+    func cancelAllRequests() {
+        self.queue.cancelAllOperations()
+    }
+
+}
+
+public extension APIService {
+
+    func GET(path: String) -> APIResource {
+        return APIResource(path: path).get()
+    }
+
+    func POST(path: String) -> APIResource {
+        return APIResource(path: path).post()
+    }
+
+    func PUT(path: String) -> APIResource {
+        return APIResource(path: path).put()
+    }
+
+    func PATCH(path: String) -> APIResource {
+        return APIResource(path: path).patch()
+    }
+
+    func DELETE(path: String) -> APIResource {
+        return APIResource(path: path).delete()
+    }
 }

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import CoreAPI
+import SwiftCoreAPI
 
 class ViewController: UIViewController {
 
@@ -14,11 +14,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 13.0, *) {
-            self.view.backgroundColor = UIColor.systemBackground
-        } else {
-            self.view.backgroundColor = UIColor.white
-        }
+        self.view.backgroundColor = UIColor.white
         makeButtons()
     }
 
@@ -29,7 +25,7 @@ private extension ViewController {
     func makeButton(_ title: String) -> UIButton {
         let result = UIButton()
         result.setTitle(title, for: .normal)
-        result.backgroundColor = .systemGray
+        result.backgroundColor = .blue
         result.setTitleColor(.white, for: .normal)
         result.addTarget(self, action: #selector(btnTap), for: .touchUpInside)
         return result
@@ -37,18 +33,16 @@ private extension ViewController {
 
     func makeButtons() {
 
-        var frame = self.view.bounds.insetBy(dx: 20, dy: 120)
-        frame.size.height = 44
+        var frame = self.view.bounds.insetBy(dx: 40, dy: 120)
+        frame.size.height = 5*44+4*10
         let stack = UIStackView(frame: frame)
         stack.autoresizingMask = [.flexibleWidth]
-        stack.axis = .horizontal
+        stack.axis = .vertical
         stack.spacing = 10
         stack.distribution = .fillEqually
         self.view.addSubview(stack)
 
-
-        let buttons = titles.map { makeButton($0) }
-        buttons.forEach { stack.addArrangedSubview($0) }
+        titles.forEach { stack.addArrangedSubview(makeButton($0)) }
     }
 
     @objc func btnTap(_ sender: UIButton) {
@@ -69,7 +63,7 @@ private extension ViewController {
     func get1() {
         let resource = APIResource(path: "https://api.mocki.io/v1/ce5f60e2")
 
-        let api = OpenAPIService()
+        let api = APIService()
         api.load(resource) { (json, data) -> NSDictionary? in
 
             //print(json)
@@ -84,7 +78,7 @@ private extension ViewController {
     func get2() {
         let resource = APIResource(path: "ce5f60e2")
 
-        let api = OpenAPIService().base("https://api.mocki.io/v1/")
+        let api = APIService().base("https://api.mocki.io/v1/")
         api.load(resource) { (json, data) -> User? in
 
             //print(json)
@@ -101,9 +95,9 @@ private extension ViewController {
             //.header(value: "Test", for: "X-Test")
             //.query(["key": "value"])
 
-        let api = OpenAPIService()
+        let api = APIService()
             .base("https://api.mocki.io/v1/")
-            .on(log: { (value) in
+            .onLog({ (value) in
                 print(value)
             })
 
@@ -122,15 +116,15 @@ private extension ViewController {
 
         let resource = APIResource(path: "ce5f60e2").post()
 
-        let api = SignedAPIService()
+        let api = APIService()
             .base("https://api.mocki.io/v1/")
-            .on(log: { (value) in
+            .onLog({ (value) in
                 print(value)
             })
-            .on(error401: { (url) in
-                print(url)
+            .onError401({ (url) in
+                print(url as Any)
             })
-            .on(signature: { (url) -> [String : String] in
+            .onSignature({ (url) -> [String : String] in
                 return ["Authorization": "Bearer 1234567890"]
             })
 

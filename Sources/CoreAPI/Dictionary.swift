@@ -23,6 +23,8 @@ extension Dictionary where Key == String, Value == Any {
         }
 
         let allowedCharacterSet = CharacterSet(charactersIn: "!';:@+$/?%#[] ").inverted
-        return array.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
+        return array
+                .joined(separator: "&")
+                .addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
     }
 }

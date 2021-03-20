@@ -13,13 +13,11 @@
 		2090651725FD220100A6FC95 /* APIMultipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650925FD220000A6FC95 /* APIMultipart.swift */; };
 		2090651825FD220100A6FC95 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650A25FD220000A6FC95 /* String.swift */; };
 		2090651925FD220100A6FC95 /* APIErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650B25FD220000A6FC95 /* APIErrorCode.swift */; };
-		2090651A25FD220100A6FC95 /* SignedAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650C25FD220000A6FC95 /* SignedAPIService.swift */; };
 		2090651B25FD220100A6FC95 /* APIMiscelaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650D25FD220000A6FC95 /* APIMiscelaneous.swift */; };
 		2090651C25FD220100A6FC95 /* URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650E25FD220000A6FC95 /* URLRequest.swift */; };
 		2090651D25FD220100A6FC95 /* NSMutableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650F25FD220000A6FC95 /* NSMutableData.swift */; };
 		2090651E25FD220100A6FC95 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090651025FD220100A6FC95 /* APIError.swift */; };
 		2090651F25FD220100A6FC95 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090651125FD220100A6FC95 /* Dictionary.swift */; };
-		2090652025FD220100A6FC95 /* OpenAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090651225FD220100A6FC95 /* OpenAPIService.swift */; };
 		2090652125FD220100A6FC95 /* APIResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090651325FD220100A6FC95 /* APIResource.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,13 +29,11 @@
 		2090650925FD220000A6FC95 /* APIMultipart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIMultipart.swift; sourceTree = "<group>"; };
 		2090650A25FD220000A6FC95 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		2090650B25FD220000A6FC95 /* APIErrorCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIErrorCode.swift; sourceTree = "<group>"; };
-		2090650C25FD220000A6FC95 /* SignedAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedAPIService.swift; sourceTree = "<group>"; };
 		2090650D25FD220000A6FC95 /* APIMiscelaneous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIMiscelaneous.swift; sourceTree = "<group>"; };
 		2090650E25FD220000A6FC95 /* URLRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLRequest.swift; sourceTree = "<group>"; };
 		2090650F25FD220000A6FC95 /* NSMutableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMutableData.swift; sourceTree = "<group>"; };
 		2090651025FD220100A6FC95 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		2090651125FD220100A6FC95 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
-		2090651225FD220100A6FC95 /* OpenAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenAPIService.swift; sourceTree = "<group>"; };
 		2090651325FD220100A6FC95 /* APIResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResource.swift; sourceTree = "<group>"; };
 		2090652925FD25EE00A6FC95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		2090652A25FD25EE00A6FC95 /* CoreAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreAPI.h; path = Resources/CoreAPI.h; sourceTree = SOURCE_ROOT; };
@@ -85,8 +81,6 @@
 				2090650625FD220000A6FC95 /* DateFormatter.swift */,
 				2090651125FD220100A6FC95 /* Dictionary.swift */,
 				2090650F25FD220000A6FC95 /* NSMutableData.swift */,
-				2090651225FD220100A6FC95 /* OpenAPIService.swift */,
-				2090650C25FD220000A6FC95 /* SignedAPIService.swift */,
 				2090650A25FD220000A6FC95 /* String.swift */,
 				2090650E25FD220000A6FC95 /* URLRequest.swift */,
 			);
@@ -179,10 +173,8 @@
 				2090652125FD220100A6FC95 /* APIResource.swift in Sources */,
 				2090651825FD220100A6FC95 /* String.swift in Sources */,
 				2090651F25FD220100A6FC95 /* Dictionary.swift in Sources */,
-				2090651A25FD220100A6FC95 /* SignedAPIService.swift in Sources */,
 				2090651C25FD220100A6FC95 /* URLRequest.swift in Sources */,
 				2090651D25FD220100A6FC95 /* NSMutableData.swift in Sources */,
-				2090652025FD220100A6FC95 /* OpenAPIService.swift in Sources */,
 				2090651425FD220100A6FC95 /* DateFormatter.swift in Sources */,
 				2090651625FD220100A6FC95 /* APIMethod.swift in Sources */,
 				2090651E25FD220100A6FC95 /* APIError.swift in Sources */,

@@ -9,7 +9,7 @@ target 'CoreAPIExample' do
 
   # Pods for CoreAPIExample
 
-  #pod 'CoreAPI', :path => '../CoreAPI.podspec'
-  pod 'SwiftCoreAPI', :git => 'https://github.com/whitetown/SwiftCoreAPI.git'
+  #pod 'SwiftCoreAPI', :path => '../SwiftCoreAPI.podspec'
+  pod 'SwiftCoreAPI'
 
 end
