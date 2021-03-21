@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,7 +11,7 @@
 		2090654225FD26FE00A6FC95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090654125FD26FE00A6FC95 /* ViewController.swift */; };
 		2090654725FD270100A6FC95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2090654625FD270100A6FC95 /* Assets.xcassets */; };
 		2090654A25FD270100A6FC95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2090654825FD270100A6FC95 /* LaunchScreen.storyboard */; };
-		A63716C378F849BB5D875076 /* Pods_CoreAPIExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D896E26A14C7ACCA4AEC2CFA /* Pods_CoreAPIExample.framework */; };
+		209C2F2226079BFA0005F5F2 /* SwiftCoreAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 209C2F2126079BFA0005F5F2 /* SwiftCoreAPI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,9 +21,6 @@
 		2090654625FD270100A6FC95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2090654925FD270100A6FC95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2090654B25FD270100A6FC95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6836F387D7D13ABDEC1F1B8B /* Pods-CoreAPIExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreAPIExample.debug.xcconfig"; path = "Target Support Files/Pods-CoreAPIExample/Pods-CoreAPIExample.debug.xcconfig"; sourceTree = "<group>"; };
-		D896E26A14C7ACCA4AEC2CFA /* Pods_CoreAPIExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreAPIExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E5D29A6C5015C502E84AB370 /* Pods-CoreAPIExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreAPIExample.release.xcconfig"; path = "Target Support Files/Pods-CoreAPIExample/Pods-CoreAPIExample.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,7 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A63716C378F849BB5D875076 /* Pods_CoreAPIExample.framework in Frameworks */,
+				209C2F2226079BFA0005F5F2 /* SwiftCoreAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,8 +40,6 @@
 			children = (
 				2090653C25FD26FE00A6FC95 /* CoreAPIExample */,
 				2090653B25FD26FE00A6FC95 /* Products */,
-				9E3C372F737330A446AA146E /* Pods */,
-				6E65C5FF1E0DB23762A3C488 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,23 +63,6 @@
 			path = CoreAPIExample;
 			sourceTree = "<group>";
 		};
-		6E65C5FF1E0DB23762A3C488 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D896E26A14C7ACCA4AEC2CFA /* Pods_CoreAPIExample.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9E3C372F737330A446AA146E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6836F387D7D13ABDEC1F1B8B /* Pods-CoreAPIExample.debug.xcconfig */,
-				E5D29A6C5015C502E84AB370 /* Pods-CoreAPIExample.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -92,17 +70,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2090654E25FD270100A6FC95 /* Build configuration list for PBXNativeTarget "CoreAPIExample" */;
 			buildPhases = (
-				E959304352208B544D356CA6 /* [CP] Check Pods Manifest.lock */,
 				2090653625FD26FE00A6FC95 /* Sources */,
 				2090653725FD26FE00A6FC95 /* Frameworks */,
 				2090653825FD26FE00A6FC95 /* Resources */,
-				AC9CA8D5ED8F4B4FCF7CD7EA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = CoreAPIExample;
+			packageProductDependencies = (
+				209C2F2126079BFA0005F5F2 /* SwiftCoreAPI */,
+			);
 			productName = CoreAPIExample;
 			productReference = 2090653A25FD26FE00A6FC95 /* CoreAPIExample.app */;
 			productType = "com.apple.product-type.application";
@@ -130,6 +109,9 @@
 				Base,
 			);
 			mainGroup = 2090653125FD26FE00A6FC95;
+			packageReferences = (
+				209C2F2026079BFA0005F5F2 /* XCRemoteSwiftPackageReference "SwiftCoreAPI" */,
+			);
 			productRefGroup = 2090653B25FD26FE00A6FC95 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -150,48 +132,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		AC9CA8D5ED8F4B4FCF7CD7EA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CoreAPIExample/Pods-CoreAPIExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CoreAPIExample/Pods-CoreAPIExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CoreAPIExample/Pods-CoreAPIExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E959304352208B544D356CA6 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CoreAPIExample-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2090653625FD26FE00A6FC95 /* Sources */ = {
@@ -335,7 +275,6 @@
 		};
 		2090654F25FD270100A6FC95 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6836F387D7D13ABDEC1F1B8B /* Pods-CoreAPIExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -355,7 +294,6 @@
 		};
 		2090655025FD270100A6FC95 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E5D29A6C5015C502E84AB370 /* Pods-CoreAPIExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -395,6 +333,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		209C2F2026079BFA0005F5F2 /* XCRemoteSwiftPackageReference "SwiftCoreAPI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/whitetown/SwiftCoreAPI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		209C2F2126079BFA0005F5F2 /* SwiftCoreAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 209C2F2026079BFA0005F5F2 /* XCRemoteSwiftPackageReference "SwiftCoreAPI" */;
+			productName = SwiftCoreAPI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2090653225FD26FE00A6FC95 /* Project object */;
 }
