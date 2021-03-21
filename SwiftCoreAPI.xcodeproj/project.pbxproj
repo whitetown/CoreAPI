@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		209064F925FD219900A6FC95 /* CoreAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		209064F925FD219900A6FC95 /* SwiftCoreAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftCoreAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2090650625FD220000A6FC95 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		2090650725FD220000A6FC95 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		2090650825FD220000A6FC95 /* APIMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIMethod.swift; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		209064EF25FD219800A6FC95 = {
 			isa = PBXGroup;
 			children = (
-				209064FB25FD219900A6FC95 /* CoreAPI */,
+				209064FB25FD219900A6FC95 /* SwiftCoreAPI */,
 				209064FA25FD219900A6FC95 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,12 +59,12 @@
 		209064FA25FD219900A6FC95 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				209064F925FD219900A6FC95 /* CoreAPI.framework */,
+				209064F925FD219900A6FC95 /* SwiftCoreAPI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		209064FB25FD219900A6FC95 /* CoreAPI */ = {
+		209064FB25FD219900A6FC95 /* SwiftCoreAPI */ = {
 			isa = PBXGroup;
 			children = (
 				2090652A25FD25EE00A6FC95 /* CoreAPI.h */,
@@ -81,8 +81,8 @@
 				2090650A25FD220000A6FC95 /* String.swift */,
 				2090650E25FD220000A6FC95 /* URLRequest.swift */,
 			);
-			name = CoreAPI;
-			path = Sources/CoreAPI;
+			name = SwiftCoreAPI;
+			path = Sources/SwiftCoreAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,9 +98,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		209064F825FD219900A6FC95 /* CoreAPI */ = {
+		209064F825FD219900A6FC95 /* SwiftCoreAPI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2090650125FD219900A6FC95 /* Build configuration list for PBXNativeTarget "CoreAPI" */;
+			buildConfigurationList = 2090650125FD219900A6FC95 /* Build configuration list for PBXNativeTarget "SwiftCoreAPI" */;
 			buildPhases = (
 				209064F425FD219900A6FC95 /* Headers */,
 				209064F525FD219900A6FC95 /* Sources */,
@@ -111,9 +111,9 @@
 			);
 			dependencies = (
 			);
-			name = CoreAPI;
+			name = SwiftCoreAPI;
 			productName = CoreAPI;
-			productReference = 209064F925FD219900A6FC95 /* CoreAPI.framework */;
+			productReference = 209064F925FD219900A6FC95 /* SwiftCoreAPI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -130,7 +130,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 209064F325FD219800A6FC95 /* Build configuration list for PBXProject "CoreAPI" */;
+			buildConfigurationList = 209064F325FD219800A6FC95 /* Build configuration list for PBXProject "SwiftCoreAPI" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -143,7 +143,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				209064F825FD219900A6FC95 /* CoreAPI */,
+				209064F825FD219900A6FC95 /* SwiftCoreAPI */,
 			);
 		};
 /* End PBXProject section */
@@ -358,7 +358,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		209064F325FD219800A6FC95 /* Build configuration list for PBXProject "CoreAPI" */ = {
+		209064F325FD219800A6FC95 /* Build configuration list for PBXProject "SwiftCoreAPI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				209064FF25FD219900A6FC95 /* Debug */,
@@ -367,7 +367,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2090650125FD219900A6FC95 /* Build configuration list for PBXNativeTarget "CoreAPI" */ = {
+		2090650125FD219900A6FC95 /* Build configuration list for PBXNativeTarget "SwiftCoreAPI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2090650225FD219900A6FC95 /* Debug */,
