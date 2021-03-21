@@ -13,7 +13,6 @@
 		2090651725FD220100A6FC95 /* APIMultipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650925FD220000A6FC95 /* APIMultipart.swift */; };
 		2090651825FD220100A6FC95 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650A25FD220000A6FC95 /* String.swift */; };
 		2090651925FD220100A6FC95 /* APIErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650B25FD220000A6FC95 /* APIErrorCode.swift */; };
-		2090651B25FD220100A6FC95 /* APIMiscelaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650D25FD220000A6FC95 /* APIMiscelaneous.swift */; };
 		2090651C25FD220100A6FC95 /* URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650E25FD220000A6FC95 /* URLRequest.swift */; };
 		2090651D25FD220100A6FC95 /* NSMutableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650F25FD220000A6FC95 /* NSMutableData.swift */; };
 		2090651E25FD220100A6FC95 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090651025FD220100A6FC95 /* APIError.swift */; };
@@ -29,7 +28,6 @@
 		2090650925FD220000A6FC95 /* APIMultipart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIMultipart.swift; sourceTree = "<group>"; };
 		2090650A25FD220000A6FC95 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		2090650B25FD220000A6FC95 /* APIErrorCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIErrorCode.swift; sourceTree = "<group>"; };
-		2090650D25FD220000A6FC95 /* APIMiscelaneous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIMiscelaneous.swift; sourceTree = "<group>"; };
 		2090650E25FD220000A6FC95 /* URLRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLRequest.swift; sourceTree = "<group>"; };
 		2090650F25FD220000A6FC95 /* NSMutableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMutableData.swift; sourceTree = "<group>"; };
 		2090651025FD220100A6FC95 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -74,7 +72,6 @@
 				2090651025FD220100A6FC95 /* APIError.swift */,
 				2090650B25FD220000A6FC95 /* APIErrorCode.swift */,
 				2090650825FD220000A6FC95 /* APIMethod.swift */,
-				2090650D25FD220000A6FC95 /* APIMiscelaneous.swift */,
 				2090650925FD220000A6FC95 /* APIMultipart.swift */,
 				2090651325FD220100A6FC95 /* APIResource.swift */,
 				2090650725FD220000A6FC95 /* APIService.swift */,
@@ -168,7 +165,6 @@
 			files = (
 				2090651925FD220100A6FC95 /* APIErrorCode.swift in Sources */,
 				2090651525FD220100A6FC95 /* APIService.swift in Sources */,
-				2090651B25FD220100A6FC95 /* APIMiscelaneous.swift in Sources */,
 				2090651725FD220100A6FC95 /* APIMultipart.swift in Sources */,
 				2090652125FD220100A6FC95 /* APIResource.swift in Sources */,
 				2090651825FD220100A6FC95 /* String.swift in Sources */,
@@ -323,7 +319,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.allwhitetown.CoreAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -350,7 +346,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.allwhitetown.CoreAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

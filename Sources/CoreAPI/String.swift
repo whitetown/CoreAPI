@@ -14,3 +14,23 @@ extension String {
     }
 
 }
+
+extension String {
+
+    func fixURL() -> String {
+        if self.trimmed.count > 0 {
+            if !self.hasSuffix("/") {
+                return self.trimmed + "/"
+            }
+        }
+        return self
+    }
+
+    func fixPath() -> String {
+        if self.hasPrefix("/") {
+            return String(self.dropFirst())
+        } else {
+            return self
+        }
+    }
+}

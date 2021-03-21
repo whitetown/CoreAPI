@@ -10,7 +10,8 @@ import SwiftCoreAPI
 
 class ViewController: UIViewController {
 
-    let titles = ["GET", "POST", "PATCH", "PUT", "DELETE"]
+    let titles = ["Simple GET", "Get user", "Get Users", "Simple POST", "Subclass1", "Subclass2"]
+    let customAPI = MyAPIService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,97 +51,119 @@ private extension ViewController {
 
         switch index {
         case 0:
-            get1()
-            get2()
-            get3()
+            simpleGet()
         case 1:
+            getUser()
+        case 2:
+            getUsers()
+        case 3:
             post()
+        case 4:
+            customPost()
+        case 5:
+            anotherExample()
         default:
             break
         }
     }
 
-    func get1() {
-        let resource = APIResource(path: "https://api.mocki.io/v1/ce5f60e2")
+    func simpleGet() {
+        let resource = APIResource(path: "simple-get")
 
-        let api = APIService()
+        let api = APIService().base("https://coreapi.free.beeceptor.com/")
         api.load(resource) { (json, data) -> NSDictionary? in
-
-            //print(json)
             return json as? NSDictionary
-
         } completion: { (result) in
-
             print(result)
         }
     }
 
-    func get2() {
-        let resource = APIResource(path: "ce5f60e2")
-
-        let api = APIService().base("https://api.mocki.io/v1/")
-        api.load(resource) { (json, data) -> User? in
-
-            //print(json)
-            return try? JSONDecoder().decode(User.self, from: data)
-
-        } completion: { (result) in
-
+    func getUser() {
+        let resource = APIResource(path: "user")
+        let api = APIService().base("https://coreapi.free.beeceptor.com/")
+        api.load(resource, User.self) { (result) in
             print(result)
         }
     }
 
-    func get3() {
-        let resource = APIResource(path: "b043df5a")
-            //.header(value: "Test", for: "X-Test")
-            //.query(["key": "value"])
-
-        let api = APIService()
-            .base("https://api.mocki.io/v1/")
-            .onLog({ (value) in
-                print(value)
-            })
-
-        api.load(resource) { (json, data) -> [User] in
-
-            //print(json)
-            return (try? JSONDecoder().decode([User].self, from: data)) ?? []
-
-        } completion: { (result) in
-
+    func getUsers() {
+        let resource = APIResource(path: "users").query(["key":"value"])
+        let api = APIService().base("https://coreapi.free.beeceptor.com/")
+        api.load(resource, [User].self) { (result) in
             print(result)
         }
     }
 
     func post() {
 
-        let resource = APIResource(path: "ce5f60e2").post()
-
-        let api = APIService()
-            .base("https://api.mocki.io/v1/")
-            .onLog({ (value) in
-                print(value)
-            })
-            .onError401({ (url) in
-                print(url as Any)
-            })
-            .onSignature({ (url) -> [String : String] in
-                return ["Authorization": "Bearer 1234567890"]
-            })
-
+        let resource = APIResource(path: "users").post()
+        let api = APIService().base("https://coreapi.free.beeceptor.com/")
         api.load(resource) { (json, data) -> Bool in
-
             return true
-
         } completion: { (result) in
-
             print(result)
+        }
+    }
+
+    func customPost() {
+        self.customAPI.makePost { (result) in
+            print(result)
+        }
+    }
+
+    func anotherExample() {
+        self.customAPI.anotherExample { (result) in
+            print(result)
+        }
+    }
+}
+
+struct User: Codable {
+    let id: Int
+    let name: String
+}
+
+class MyAPIService: APIService {
+
+    override init() {
+        super.init()
+        initialize()
+    }
+
+    func initialize() {
+        self
+            .base("https://coreapi.free.beeceptor.com/")
+            .headers(values: ["api-key": "some-value"])
+            .onLog { (value) in
+                print(value)
+            }
+    }
+
+    func makePost(completion: @escaping (Result<NSDictionary,Error>)->Void) {
+
+        let resource = POST(path: "custom").body(["key":"value"])
+
+        self.load(resource) { (json, data) -> NSDictionary? in
+            return json as? NSDictionary
+        } completion: { (result) in
+            completion(result)
+        }
+    }
+
+    func anotherExample(completion: @escaping (Result<Status,Error>)->Void) {
+
+        let payload = User(id: 5, name: "Test")
+        let resource = POST(path: "custom").payload(payload)
+
+        self.load(resource, Status.self) { (result) in
+            completion(result)
         }
     }
 
 }
 
-struct User: Codable {
-    let name: String
-    let city: String
+struct Status: Codable {
+    let status: String
 }
+
+

@@ -183,14 +183,3 @@ public extension APIResource {
         return self
     }
 }
-
-extension String {
-
-    func fixPath() -> String {
-        if self.hasPrefix("/") {
-            return String(self.dropFirst())
-        } else {
-            return self
-        }
-    }
-}

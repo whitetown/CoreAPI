@@ -47,9 +47,10 @@ open class APIService {
         }
     }
 
+    @discardableResult
     open func load<T>(_ resource: APIResource,
                       parse: @escaping ((AnyObject, Data) -> T?),
-                      completion: @escaping (Result<T, Error>) -> ()) {
+                      completion: @escaping (Result<T, Error>) -> ()) -> Operation {
 
         weak var welf = self
         let operation = BlockOperation {
@@ -69,6 +70,17 @@ open class APIService {
             }
         }
         self.queue.addOperation(operation)
+        return operation
+    }
+
+    @discardableResult
+    open func load<T: Decodable>(_ resource: APIResource,
+                                 _ type: T.Type,
+                                 completion: @escaping (Result<T, Error>) -> ()) -> Operation {
+
+        return self.load(resource, parse: { (_, data) -> T? in
+            return try? JSONDecoder().decode(T.self, from: data)
+        }, completion: completion)
     }
 
     private func loadInternal<T>(_ resource: APIResource,
@@ -177,7 +189,7 @@ public extension APIService {
 
     @discardableResult
     func base(_ urLString: String) -> Self {
-        self.baseURL = URL(string: urLString)
+        self.baseURL = URL(string: urLString.fixURL())
         return self
     }
 
