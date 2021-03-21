@@ -81,7 +81,7 @@ self.customAPI.anotherExample { (result) in
 
 The core idea:
 1. describe a resource
-2. call service
+2. call a service
 
 both APIResource and APIService highly customisable, support chaining for parameters
 
@@ -118,6 +118,29 @@ service
     .onSignature({ (path) -> [String : String] in
         return ["Authorization": "Bearer xxxxxxx"]
     })
+```
+
+
+function load(...) returns an operation
+
+all requests are executed acynchronously in a background thread
+
+a completion block returns a result in a backgroung thread as well. 
+it's your responsibility to handle the result in a main thread if necessary:
+```swift
+weak var welf = self
+let resource = APIResource(path: "users")
+let api = APIService().base("https://coreapi.free.beeceptor.com/")
+api.load(resource, [Users].self) { (result) in
+    switch result {
+    case .success(let items):
+        DispatchQueue.main.async {
+            welf?.items = items
+            welf?.tableView.reloadData()
+        }
+    case .failure(let error):
+        print(error)
+}
 ```
 
 :-)
