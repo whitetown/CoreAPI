@@ -15,6 +15,8 @@ open class APIService {
     public var signature:  ((URL?) -> [String : String])?
     public var on401Error: ((URL?) -> Void)?
 
+    public var defaultDecoder = JSONDecoder()
+
     public let queue = OperationQueue()
     public let session = URLSession(configuration: .default)
 
@@ -24,6 +26,8 @@ open class APIService {
     public init() {
         self.session.configuration.waitsForConnectivity = true
         self.session.configuration.timeoutIntervalForRequest = 60
+
+        self.defaultDecoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
     }
 
     open func prepareRequest(_ url: URL, _ resource: APIResource) -> URLRequest {
@@ -79,7 +83,7 @@ open class APIService {
                                  completion: @escaping (Result<T, Error>) -> ()) -> Operation {
 
         return self.load(resource, parse: { (_, data) -> T? in
-            return try? JSONDecoder().decode(T.self, from: data)
+            return try? self.defaultDecoder.decode(T.self, from: data)
         }, completion: completion)
     }
 
@@ -222,6 +226,12 @@ public extension APIService {
     @discardableResult
     func onSignature(_ signature: @escaping ((URL?) -> [String : String])) -> Self {
         self.signature = signature
+        return self
+    }
+
+    @discardableResult
+    func setDefaultDecoder(_ decoder: JSONDecoder) -> Self {
+        self.defaultDecoder = decoder
         return self
     }
 

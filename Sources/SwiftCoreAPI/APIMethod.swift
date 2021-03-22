@@ -8,19 +8,9 @@
 import Foundation
 
 public enum APIMethod: String {
-    case get
-    case post
-    case put
-    case patch
-    case delete
-
-    var stringValue: String {
-        switch self {
-        case .get:    return "GET"
-        case .post:   return "POST"
-        case .put:    return "PUT"
-        case .patch:  return "PATCH"
-        case .delete: return "DELETE"
-        }
-    }
+    case get    = "GET"
+    case post   = "POST"
+    case put    = "PUT"
+    case patch  = "PATCH"
+    case delete = "DELETE"
 }

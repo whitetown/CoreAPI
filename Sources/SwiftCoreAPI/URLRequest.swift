@@ -17,11 +17,8 @@ extension URLRequest {
     init(url: URL, resource: APIResource, headers: [String:String], signature: [String:String] = [:]) {
 
         self.init(url: url)
-        self.httpMethod = resource.method.stringValue
+        self.httpMethod = resource.method.rawValue
         for (field, value) in headers {
-            self.setValue(value, forHTTPHeaderField: field)
-        }
-        for (field, value) in resource.headers {
             self.setValue(value, forHTTPHeaderField: field)
         }
         for (field, value) in signature {
@@ -31,6 +28,9 @@ extension URLRequest {
             for (field, value) in jsonHeader {
                 self.setValue(value, forHTTPHeaderField: field)
             }
+        }
+        for (field, value) in resource.headers {
+            self.setValue(value, forHTTPHeaderField: field)
         }
         if resource.method != .get {
             self.httpBody = resource.data
