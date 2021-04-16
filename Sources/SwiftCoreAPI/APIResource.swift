@@ -9,12 +9,12 @@ import Foundation
 
 public class APIResource {
 
-    var path:     String?
-    var method:   APIMethod = .get
-    var headers = [String: String]()
-    var data:     Data?
-    var query   = [String: Any]()
-    var isJSON  = true
+    public var path:     String?
+    public var method:   APIMethod = .get
+    public var headers = [String: String]()
+    public var data:     Data?
+    public var query   = [String: Any]()
+    public var isJSON  = true
 
     public init(path:      String? = nil,
                 method:    APIMethod = .get,
