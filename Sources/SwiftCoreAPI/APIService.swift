@@ -96,11 +96,12 @@ open class APIService {
             return
         }
 
+        let startTime = Date()
         let request = prepareRequest(url, resource)
         self.session.dataTask(with: request) { data, response, error in
-            
+            let endTime = Date()
             DispatchQueue.global().async {
-                self.log(request, data, response, error)
+                self.log(request, data, response, error, startTime, endTime)
             }
 
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
@@ -140,13 +141,13 @@ open class APIService {
         self.loadInternal(resource, parse: parse, completion: completion)
     }
 
-    private func log(_ request: URLRequest, _ data: Data?, _ response: URLResponse?, _ error: Error?) {
+    private func log(_ request: URLRequest, _ data: Data?, _ response: URLResponse?, _ error: Error?, _ startTime: Date, _ endTime: Date) {
         
         guard let onLog = self.onLog else { return }
 
         var messages = [String]()
         
-        messages.append(DateFormatter.logPrefix() + "\(request.httpMethod ?? "") REQUEST " + String(repeating: "-", count: 30))
+        messages.append(DateFormatter.logPrefix(startTime) + "\(request.httpMethod ?? "") REQUEST " + String(repeating: "-", count: 30))
 
         messages.append(request.url?.absoluteString ?? "")
         if let headers = request.allHTTPHeaderFields {
@@ -158,7 +159,10 @@ open class APIService {
             messages.append("BODY: \(value ?? json?.description ?? "")")
         }
 
-        messages.append(DateFormatter.logPrefix() + "\((response as? HTTPURLResponse)?.statusCode ?? 0) RESPONSE " + String(repeating: "-", count: 30))
+        messages.append(DateFormatter.logPrefix(endTime)
+                            + "\((response as? HTTPURLResponse)?.statusCode ?? 0) RESPONSE -- "
+                            + "\(endTime.timeIntervalSince1970-startTime.timeIntervalSince1970) "
+                            + String(repeating: "-", count: 20))
 
         if let headers = (response as? HTTPURLResponse)?.allHeaderFields as? [String:Any] {
             messages.append("HEADERS: \(headers.description)")

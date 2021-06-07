@@ -24,7 +24,7 @@ extension DateFormatter {
         return result
     }()
 
-    static func logPrefix() -> String {
-        return "----- \(DateFormatter.coreAPI.string(from: Date())) -- CoreAPI "
+    static func logPrefix(_ date: Date = Date()) -> String {
+        return "----- \(DateFormatter.coreAPI.string(from: date)) -- CoreAPI "
     }
 }
