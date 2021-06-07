@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
     spec.ios.deployment_target = "12.1"
     spec.swift_version = "5.1"
 
-    spec.source        = { :git => "https://github.com/whitetown/SwiftCoreAPI.git", :tag => "#{spec.version}" }
+    spec.source        = { :git => "https://github.com/whitetown/SwiftCoreAPI.git", :tag => "v#{spec.version}" }
     spec.source_files  = "Sources/**/*.swift"
 
 end
