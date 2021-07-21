@@ -27,7 +27,13 @@ open class APIService {
         self.session.configuration.waitsForConnectivity = true
         self.session.configuration.timeoutIntervalForRequest = 60
 
-        self.defaultDecoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        //self.defaultDecoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        self.defaultDecoder.dateDecodingStrategyFormatters = [
+            DateFormatter.iso8601Full,
+            DateFormatter.iso8601ShortZ,
+            DateFormatter.iso8601Short,
+            DateFormatter.yyyyMMdd_HHmmss,
+        ]
     }
 
     open func prepareRequest(_ url: URL, _ resource: APIResource) -> URLRequest {

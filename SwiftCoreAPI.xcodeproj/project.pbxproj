@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		204D20D326A85CEF00FD5D88 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204D20D226A85CEF00FD5D88 /* JSONDecoder.swift */; };
 		2090651425FD220100A6FC95 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650625FD220000A6FC95 /* DateFormatter.swift */; };
 		2090651525FD220100A6FC95 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650725FD220000A6FC95 /* APIService.swift */; };
 		2090651625FD220100A6FC95 /* APIMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2090650825FD220000A6FC95 /* APIMethod.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		204D20D226A85CEF00FD5D88 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		209064F925FD219900A6FC95 /* SwiftCoreAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftCoreAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2090650625FD220000A6FC95 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		2090650725FD220000A6FC95 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				2090650F25FD220000A6FC95 /* NSMutableData.swift */,
 				2090650A25FD220000A6FC95 /* String.swift */,
 				2090650E25FD220000A6FC95 /* URLRequest.swift */,
+				204D20D226A85CEF00FD5D88 /* JSONDecoder.swift */,
 			);
 			name = SwiftCoreAPI;
 			path = Sources/SwiftCoreAPI;
@@ -163,6 +166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				204D20D326A85CEF00FD5D88 /* JSONDecoder.swift in Sources */,
 				2090651925FD220100A6FC95 /* APIErrorCode.swift in Sources */,
 				2090651525FD220100A6FC95 /* APIService.swift in Sources */,
 				2090651725FD220100A6FC95 /* APIMultipart.swift in Sources */,
@@ -319,7 +323,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.allwhitetown.CoreAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -346,7 +350,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.allwhitetown.CoreAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
