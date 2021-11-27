@@ -14,7 +14,7 @@ open class APIService {
 
     public var signature:  ((URL?) -> [String : String])?
     public var on401Error: ((URL?) -> Void)?
-    public var on401ErrorWithCallback: ((URL?, (_ reload: Bool)->Void) -> Void)?
+    public var on401ErrorWithCallback: ((URL?, @escaping (_ reload: Bool)->Void) -> Void)?
 
     public var defaultDecoder = JSONDecoder()
 
@@ -242,6 +242,12 @@ public extension APIService {
     @discardableResult
     func onError401(_ error401: @escaping ((URL?) -> Void)) -> Self {
         self.on401Error = error401
+        return self
+    }
+
+    @discardableResult
+    func onError401WithCallback(_ on401ErrorWithCallback: @escaping ((URL?, @escaping (_ reload: Bool)->Void) -> Void)) -> Self {
+        self.on401ErrorWithCallback = on401ErrorWithCallback
         return self
     }
 
