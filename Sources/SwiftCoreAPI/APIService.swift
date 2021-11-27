@@ -14,6 +14,7 @@ open class APIService {
 
     public var signature:  ((URL?) -> [String : String])?
     public var on401Error: ((URL?) -> Void)?
+    public var on401ErrorWithCallback: ((URL?, (_ reload: Bool)->Void) -> Void)?
 
     public var defaultDecoder = JSONDecoder()
 
@@ -69,12 +70,23 @@ open class APIService {
                 case .success(_):
                     completion(result)
                 case .failure(let error):
-                    if (error as? APIError)?.apiCode == .unauthorised, let on401Error = welf?.on401Error {
-                        welf?.suspend()
-                        welf?.reloadResource(resource, parse: parse, completion: completion)
-                        on401Error(welf?.baseURL)
-                    } else {
-                        completion(result)
+                    if (error as? APIError)?.apiCode == .unauthorised {
+
+                        if let on401ErrorWithCallback = welf?.on401ErrorWithCallback {
+                            welf?.suspend()
+                            on401ErrorWithCallback(welf?.baseURL) { reload in
+                                if reload {
+                                    welf?.reloadResource(resource, parse: parse, completion: completion)
+                                }
+                            }
+
+                        } else if let on401Error = welf?.on401Error {
+                            welf?.suspend()
+                            on401Error(welf?.baseURL)
+
+                        } else {
+                            completion(result)
+                        }
                     }
                 }
             }
