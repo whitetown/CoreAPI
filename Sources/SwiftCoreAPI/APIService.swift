@@ -87,6 +87,9 @@ open class APIService {
                         } else {
                             completion(result)
                         }
+
+                    } else {
+                        completion(result)
                     }
                 }
             }
