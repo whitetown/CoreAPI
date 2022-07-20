@@ -96,10 +96,14 @@ private extension ViewController {
 
     func post() {
 
-        let resource = APIResource(path: "users").post()
+        let value = Array(1...100000).map({ "line \($0)" }).joined(separator: "\n")
+
+        let resource = APIResource(path: "users").post().body(["key": value])
         let api = APIService().base("https://coreapi.free.beeceptor.com/")
         api.load(resource) { (json, data) -> Bool in
             return true
+        } progress: { value in
+            print(value)
         } completion: { (result) in
             print(result)
         }
@@ -145,6 +149,8 @@ class MyAPIService: APIService {
 
         self.load(resource) { (json, data) -> NSDictionary? in
             return json as? NSDictionary
+        } progress: { value in
+            print(value)
         } completion: { (result) in
             completion(result)
         }

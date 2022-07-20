@@ -32,7 +32,7 @@ extension URLRequest {
         for (field, value) in resource.headers {
             self.setValue(value, forHTTPHeaderField: field)
         }
-        if resource.method != .get {
+        if resource.method != .get && resource.data != nil {
             self.httpBody = resource.data
         }
     }

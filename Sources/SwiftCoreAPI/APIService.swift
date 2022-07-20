@@ -7,7 +7,9 @@
 
 import Foundation
 
-open class APIService {
+open class APIService: NSObject {
+
+    public typealias ProgressHandler = (Double) -> Void
 
     public var onLog: ((String) -> Void)?
     public var maxLogHeaderLength = -1
@@ -19,12 +21,16 @@ open class APIService {
     public var defaultDecoder = JSONDecoder()
 
     public let queue = OperationQueue()
-    public let session = URLSession(configuration: .default)
+    public lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
 
     internal var baseURL:  URL?
     internal var headers = [String:String]()
 
-    public init() {
+    private var progressHandlersByTaskID = [Int : ProgressHandler]()
+
+    public override init() {
+        super.init()
+
         self.session.configuration.waitsForConnectivity = true
         self.session.configuration.timeoutIntervalForRequest = 60
 
@@ -66,32 +72,9 @@ open class APIService {
         weak var welf = self
         let operation = BlockOperation {
             self.loadInternal(resource, parse: parse) { (result) in
-                switch result {
-                case .success(_):
-                    completion(result)
-                case .failure(let error):
-                    if (error as? APIError)?.apiCode == .unauthorised {
-
-                        if let on401ErrorWithCallback = welf?.on401ErrorWithCallback {
-                            welf?.suspend()
-                            on401ErrorWithCallback(welf?.baseURL) { reload in
-                                if reload {
-                                    welf?.reloadResource(resource, parse: parse, completion: completion)
-                                }
-                            }
-
-                        } else if let on401Error = welf?.on401Error {
-                            welf?.suspend()
-                            on401Error(welf?.baseURL)
-
-                        } else {
-                            completion(result)
-                        }
-
-                    } else {
-                        completion(result)
-                    }
-                }
+                welf?.resultHandler(result, onReload: {
+                    welf?.reloadResource(resource, parse: parse, completion: completion)
+                }, completion: completion)
             }
         }
         self.queue.addOperation(operation)
@@ -108,61 +91,175 @@ open class APIService {
         }, completion: completion)
     }
 
-    private func loadInternal<T>(_ resource: APIResource,
-                      parse: @escaping ((AnyObject, Data) -> T?),
-                      completion: @escaping (Result<T, Error>) -> ()) {
+    @discardableResult
+    open func upload<T>(_ resource: APIResource,
+                        parse: @escaping ((AnyObject, Data) -> T?),
+                        onProgress: @escaping ProgressHandler,
+                        completion: @escaping (Result<T, Error>) -> ()) -> Operation {
+
+        weak var welf = self
+        let operation = BlockOperation {
+            self.uploadInternal(resource, parse: parse, onProgress: onProgress) { (result) in
+                welf?.resultHandler(result, onReload: {
+                    welf?.reuploadResource(resource, parse: parse, onProgress: onProgress, completion: completion)
+                }, completion: completion)
+            }
+        }
+        self.queue.addOperation(operation)
+        return operation
+    }
+
+    @discardableResult
+    open func upload<T: Decodable>(_ resource: APIResource,
+                                   _ type: T.Type,
+                                   onProgress: @escaping ProgressHandler,
+                                   completion: @escaping (Result<T, Error>) -> ()) -> Operation {
+
+        return self.upload(resource, parse: { (_, data) -> T? in
+            return try? self.defaultDecoder.decode(T.self, from: data)
+        }, onProgress: onProgress, completion: completion)
+    }
+
+}
+
+private extension APIService {
+
+    func resultHandler<T>(_ result: Result<T, Error>,
+                          onReload: @escaping ()->Void,
+                          completion: @escaping (Result<T, Error>) -> ()) {
+
+        switch result {
+        case .success(_):
+            completion(result)
+        case .failure(let error):
+            if (error as? APIError)?.apiCode == .unauthorised {
+
+                if let on401ErrorWithCallback = self.on401ErrorWithCallback {
+                    self.suspend()
+                    on401ErrorWithCallback(self.baseURL) { reload in
+                        if reload {
+                            onReload()
+                        }
+                    }
+
+                } else if let on401Error = self.on401Error {
+                    self.suspend()
+                    on401Error(self.baseURL)
+
+                } else {
+                    completion(result)
+                }
+
+            } else {
+                completion(result)
+            }
+        }
+    }
+
+    func responseHandler<T>(_ data: Data?,
+                            _ response: URLResponse?,
+                            _ error: Error?,
+                            parse: @escaping ((AnyObject, Data) -> T?),
+                            completion: @escaping (Result<T, Error>) -> ()) {
+
+        let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+
+        if let error = error {
+            completion(.failure(APIError(.otherHTTP, statusCode: statusCode, error: error, response: response)))
+            return
+        }
+
+        if let error = APIError.checkResponse(response, data: data) {
+            completion(.failure(error))
+            return
+        }
+
+        if  let data = data,
+            let json = try? JSONSerialization.jsonObject(with: data, options: []) as AnyObject,
+            let result = parse(json, data) {
+                completion(.success(result))
+            return
+        }
+
+        if [200, 201, 202, 204].contains(statusCode) {
+            if let result = true as? T {
+                completion(.success(result))
+                return
+            }
+        }
+
+        completion(.failure(APIError(.noData, statusCode: statusCode)))
+    }
+
+    func loadInternal<T>(_ resource: APIResource,
+                         parse: @escaping ((AnyObject, Data) -> T?),
+                         completion: @escaping (Result<T, Error>) -> ()) {
 
         guard let url = self.url(resource) else {
             completion(.failure(APIError(.wrongURL)))
             return
         }
 
+        weak var welf = self
         let startTime = Date()
         let request = prepareRequest(url, resource)
-        self.session.dataTask(with: request) { data, response, error in
+        let task = self.session.dataTask(with: request) { data, response, error in
             let endTime = Date()
             DispatchQueue.global().async {
                 self.log(request, data, response, error, startTime, endTime)
             }
+            welf?.responseHandler(data, response, error, parse: parse, completion: completion)
+        }
 
-            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
-
-            if let error = error {
-                completion(.failure(APIError(.otherHTTP, statusCode: statusCode, error: error, response: response)))
-                return
-            }
-
-            if let error = APIError.checkResponse(response, data: data) {
-                completion(.failure(error))
-                return
-            }
-
-            if  let data = data,
-                let json = try? JSONSerialization.jsonObject(with: data, options: []) as AnyObject,
-                let result = parse(json, data) {
-                    completion(.success(result))
-                return
-            }
-
-            if [200, 201, 202, 204].contains(statusCode) {
-                if let result = true as? T {
-                    completion(.success(result))
-                    return
-                }
-            }
-
-            completion(.failure(APIError(.noData, statusCode: statusCode)))
-
-        }.resume()
+        task.resume()
     }
 
-    private func reloadResource<T>(_ resource: APIResource,
+    func reloadResource<T>(_ resource: APIResource,
                                    parse: @escaping ((AnyObject, Data) -> T?),
                                    completion: @escaping (Result<T, Error>) -> ()) {
         self.loadInternal(resource, parse: parse, completion: completion)
     }
 
-    private func log(_ request: URLRequest, _ data: Data?, _ response: URLResponse?, _ error: Error?, _ startTime: Date, _ endTime: Date) {
+    func uploadInternal<T>(_ resource: APIResource,
+                                   parse: @escaping ((AnyObject, Data) -> T?),
+                                   onProgress: @escaping ProgressHandler,
+                                   completion: @escaping (Result<T, Error>) -> ()) {
+
+        guard let url = self.url(resource) else {
+            completion(.failure(APIError(.wrongURL)))
+            return
+        }
+
+        weak var welf = self
+        let startTime = Date()
+        let data = resource.data ?? Data()
+        resource.data = nil
+        let request = prepareRequest(url, resource)
+
+        let task = self.session.uploadTask(with: request, from: data) { data, response, error in
+            let endTime = Date()
+            DispatchQueue.global().async {
+                self.log(request, data, response, error, startTime, endTime)
+            }
+            welf?.responseHandler(data, response, error, parse: parse, completion: completion)
+        }
+        self.progressHandlersByTaskID[task.taskIdentifier] = onProgress
+        task.resume()
+    }
+
+    func reuploadResource<T>(_ resource: APIResource,
+                                   parse: @escaping ((AnyObject, Data) -> T?),
+                                   onProgress: @escaping ProgressHandler,
+                                   completion: @escaping (Result<T, Error>) -> ()) {
+        self.uploadInternal(resource, parse: parse, onProgress: onProgress, completion: completion)
+    }
+
+    func log(_ request: URLRequest,
+             _ data: Data?,
+             _ response: URLResponse?,
+             _ error: Error?,
+             _ startTime: Date,
+             _ endTime: Date) {
         
         guard let onLog = self.onLog else { return }
 
@@ -300,5 +397,24 @@ public extension APIService {
 
     func DELETE(path: String) -> APIResource {
         return APIResource(path: path).delete()
+    }
+}
+
+extension APIService: URLSessionTaskDelegate {
+
+    public func urlSession(_ session: URLSession,
+                           task: URLSessionTask,
+                           didSendBodyData bytesSent: Int64,
+                           totalBytesSent: Int64,
+                           totalBytesExpectedToSend: Int64) {
+        let progress = Double(totalBytesSent) / Double(totalBytesExpectedToSend)
+        let handler = self.progressHandlersByTaskID[task.taskIdentifier]
+        handler?(progress)
+    }
+
+    public func urlSession(_ session: URLSession,
+                           task: URLSessionTask,
+                           didCompleteWithError error: Error?) {
+        self.progressHandlersByTaskID[task.taskIdentifier] = nil
     }
 }
