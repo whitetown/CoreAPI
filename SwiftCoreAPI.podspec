@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
     spec.name         = "SwiftCoreAPI"
-    spec.version      = "0.1.8"
+    spec.version      = "0.1.9"
     spec.summary      = "SwiftCoreAPI framework"
 
     spec.description  = <<-DESC

@@ -186,6 +186,17 @@ private extension APIService {
                 completion(.success(result))
                 return
             }
+            
+            if  let data = data {
+                if let result = String(data: data, encoding: .utf8) as? T {
+                    completion(.success(result))
+                    return
+                }
+                
+                if let data = data as? T {
+                    completion(.success(data))
+                }
+            }
         }
 
         completion(.failure(APIError(.noData, statusCode: statusCode)))
